@@ -1,0 +1,38 @@
+<template>
+  <div id="app">
+    <!-- <a href="http://localhost:8080/cart.html">11111</a> -->
+    <carousel></carousel>
+    <classify-tabs></classify-tabs>
+    <hot-courses></hot-courses>
+    <tab></tab>
+  </div>
+</template>
+
+<script>
+import Tab from 'components/tab/tab'
+import Carousel from 'pages/index/components/carousel/carousel'
+import ClassifyTabs from 'pages/index/components/classify-tabs/classify-tabs'
+import HotCourses from 'pages/index/components/hot-courses/hot-courses'
+export default {
+  name: 'app',
+  components: {
+    Tab,
+    Carousel,
+    ClassifyTabs,
+    HotCourses
+  }
+}
+</script>
+
+<style lang="stylus">
+@import "~common/stylus/main";
+
+.app
+  display: flex
+  flex-direction: column
+  justify-content: flex-end
+  height: 100vh
+body
+  background-color #fbf9fe
+  width 750px
+</style>

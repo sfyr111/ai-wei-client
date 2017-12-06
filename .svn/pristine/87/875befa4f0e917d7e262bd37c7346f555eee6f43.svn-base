@@ -1,0 +1,169 @@
+<template>
+  <div id="app">
+    <router-view></router-view>
+    <div class="app-content">
+      <swiper auto loop dots-position="center" dots-class="custom-bottom">
+        <swiper-item v-for="(item, index) in banners" :key="index">
+          <img class="swiper-img" @click="getAdvertisement(item.url)" :src="item.img" alt="">
+        </swiper-item>
+      </swiper>
+      <div class="classify">
+        <classify-tabs v-for="(item, index) in classify" :key="item._id" :item="item"></classify-tabs>
+      </div>
+      <div class="hot-courses">
+        <div class="courses-title">
+          <div class="list-title">热门课程</div>
+          <div class="list-whole" @click="whole">查看全部 &gt;</div>
+        </div>
+        <div>
+          <column-cell v-for="(item, index) in popularColumns" :key="item._id" :item="item" ></column-cell>
+        </div>
+      </div>
+    </div>
+    <tab selectedPage="home"></tab>
+  </div>
+</template>
+
+<script>
+  import Tab from 'components/tab/tab'
+  // import Carousel from 'pages/index/components/carousel/carousel'
+  import ClassifyTabs from 'pages/index/components/classify-tabs/classify-tabs'
+  import columnCell from 'components/column-cell/column-cell'
+  import { getParameterByName } from 'common/js/util'
+  import { wechatLogin, getPopularColumns, getClassify, getBanner } from './api'
+  import { ERR_OK } from 'common/api/config'
+  import { mapGetters, mapActions } from 'vuex'
+  import { Swiper, SwiperItem } from 'vux'
+  export default {
+    name: 'app',
+    mixins: [],
+    props: {
+    },
+    data () {
+      return {
+        classify: '',
+        popularColumns: '',
+        banners: []
+      }
+    },
+    computed: {
+      ...mapGetters({
+        userInfo: 'userInfo',
+        token: 'token'
+      })
+    },
+    components: {
+      Tab,
+      ClassifyTabs,
+      columnCell,
+      Swiper,
+      SwiperItem
+    },
+    methods: {
+      ...mapActions({
+        saveWecharLogin: 'saveWecharLogin'
+      }),
+      async _wechatLogin (code) {
+        const params = { code }
+        return await wechatLogin(params).then(data => {
+          if (data.code === ERR_OK) {
+            this.saveWecharLogin(data)
+            return data
+          }
+        })
+      },
+      async _getPopularColumns () {
+        const params = {}
+        return await getPopularColumns(params).then(data => {
+          if (data.code === ERR_OK) {
+            this.popularColumns = data.column
+            return data
+          }
+        })
+      },
+      async _getBanner () {
+        const params = {}
+        return await getBanner(params).then(data => {
+          if (data.code === ERR_OK) {
+            // this.banners = data.banners
+            for (let i = 0; i < data.banners.length; i++) {
+              this.banners[i] = {}
+              this.banners[i].url = `/advertisement/${data.banners[i]._id}`
+              this.banners[i].img = data.banners[i].imgUrl
+            }
+            return data
+          }
+        })
+      },
+      async _getClassify () {
+        const params = {}
+        return await getClassify(params).then(data => {
+          if (data.code === ERR_OK) {
+            this.classify = data.classify
+            return data
+          }
+        })
+      },
+      async _concurrent () {
+        const data = await Promise.all([this._getBanner(), this._getPopularColumns(), this._getClassify()])
+        return data
+      },
+      whole () {
+        window.location.href = 'hot-course.html'
+      },
+      getAdvertisement (url) {
+        this.$router.push({path: url})
+      }
+    },
+    created () {
+      let code = ''
+//      if (process.env.NODE_ENV !== 'production') {
+//        code = 'test'
+//      } else {
+//        code = getParameterByName('code', window.location.href)
+//      }
+      code = getParameterByName('code', window.location.href)
+      if (process.env.NODE_ENV !== 'production') code = 'test'
+      this._wechatLogin(code)
+      this._concurrent()
+    },
+    mounted () {}
+  }
+</script>
+
+<style lang="stylus">
+  @import "~common/stylus/main";
+
+  body
+    background-color #fbf9fe
+    width 750px
+  .app-content
+    height 1090px
+    overflow-y auto
+    .classify
+      display flex
+      justify-content space-around
+      background-color #fff
+      height 141px
+      align-items center
+      border-bottom 15px solid #f7f7f7
+    .hot-courses
+      background-color #fff
+      .courses-title
+        margin 0 20px 0 20px
+        background-color #fff
+        height 83px
+        display flex
+        align-items center
+        justify-content space-between
+        border-bottom 3px solid #f7f7f7
+        .list-title
+          font-size 28px
+          font-weight bold
+        .list-whole
+          font-size 22px
+          color #bababa
+  .swiper-img
+    height 400px
+    width 750px
+</style>

@@ -1,0 +1,265 @@
+<template>
+  <div id="column-video">
+    <div class="column-top">
+      <video
+        id="my-player"
+        class="video-js"
+        controls
+        preload="auto"
+        :poster="imgUrl"
+        data-setup='{}' >
+        <source src="https://flv2.bn.netease.com/videolib3/1711/04/uwieG3913/HD/uwieG3913-mobile.mp4" type="video/mp4"></source>
+      </video>
+      <div class="operation">
+        <div class="operation-left" @click="introduce">
+          <i data-feather="menu"></i>
+          <span>{{!isShowIntroduce ? '详情' : '课程'}}</span>
+        </div>
+        <div class="operation-right">
+          <section @click="_addFavorite(columnId)" v-show="!isFavorite">
+            <i data-feather="heart"></i>
+            <span>收藏</span>
+          </section>
+          <section v-show="isFavorite" class="" @click="_deleteFavoriteColumn(columnId)">
+            <i data-feather="heart" class="isFavorite"></i>
+            <span>已收藏</span>
+          </section>
+          <!-- <section>
+            <i data-feather="share"></i>
+            <span>分享</span>
+          </section> -->
+        </div>
+      </div>
+    </div>
+    <course-column :courses="courses" :currentPlay="videoUrl" @play="play" v-show="!isShowIntroduce"></course-column>
+    <!-- <course-item v-for="(item, index) in courses" :item="item" :key="item._id" @play="play" :paused="paused" :currentPlay="videoUrl" v-show="!isShowIntroduce"></course-item> -->
+    <course-introduce :column="column" v-show="isShowIntroduce"></course-introduce>
+  </div>
+</template>
+
+<script>
+  import CourseIntroduce from './components/course-introduce/course-introduce'
+  // import CourseItem from './components/course-item/course-item'
+  import CourseColumn from './components/course-column/course-column'
+  import { getFavoriteColumn, addFavoriteColumn, getCoursesByColumnId, getCoursesById, deleteFavoriteColumn } from './api'
+  import { ERR_OK } from 'common/api/config'
+  import feather from 'feather-icons'
+  import { mapGetters } from 'vuex'
+  import { addFavoriteHistory } from 'common/api'
+  import storage from 'good-storage'
+  import 'video.js/dist/video-js.min.css'
+  import videojs from 'video.js/dist/video.min.js'
+  export default {
+    name: 'column-video',
+    mixins: [],
+    props: {},
+    data () {
+      return {
+        courses: [],
+        isShowIntroduce: false,
+        columns: [],
+        userId: '',
+        columnId: '',
+        videoUrl: '',
+        player: '',
+        readyUrl: 'https://flv2.bn.netease.com/videolib3/1711/04/uwieG3913/HD/uwieG3913-mobile.mp4',
+        paused: true,
+        column: {
+          // imgUrl: require('./pic03_02.png')
+        },
+        imgUrl: ''
+      }
+    },
+    computed: {
+      ...mapGetters([
+        'userInfo'
+      ]),
+      isFavorite () {
+        return this.columns.filter(item => {
+          return item._id === this.$route.query.columnId
+        }).length
+      }
+    },
+    components: {
+      CourseIntroduce,
+      CourseColumn
+    },
+    watch: {
+      imgUrl: function (v) {
+        console.log(v)
+        this.player.poster(v)
+      },
+      readyUrl: function (v) {
+        this.player.src(v)
+      }
+    },
+    methods: {
+      play (obj) {
+        if (this.videoUrl !== obj.url) {
+          this.player.src(obj.url)
+        }
+        if (this.videoUrl !== obj.url) {
+          this.paused = true
+        }
+        this.videoUrl = obj.url
+        this.imgUrl = obj.img
+        this.player.ready(() => {
+          if (this.paused) {
+            this.player.play()
+            this.paused = this.player.paused()
+          } else {
+            this.player.pause()
+            this.paused = this.player.paused()
+          }
+          console.log(this.paused)
+        })
+      },
+      async _getCoursesByColumnId (columnId) {
+        const params = {}
+        return getCoursesByColumnId(params, columnId).then(data => {
+          if (data.code === ERR_OK) {
+            this.courses = data.video
+            this.readyUrl = this.courses[0].videoUrl
+            this.imgUrl = this.courses[0].imgUrl
+            return data
+          }
+        })
+      },
+      async _getCoursesById (columnId) {
+        const params = {}
+        return getCoursesById(params, columnId).then(data => {
+          if (data.code === ERR_OK) {
+            this.column = data.column[0]
+            return data
+          }
+        })
+      },
+      introduce () {
+        this.isShowIntroduce = !this.isShowIntroduce
+      },
+      async _getFavoriteColumn () {
+        const params = {}
+        return await getFavoriteColumn(params, this.userId).then(data => {
+          if (data.code === ERR_OK) {
+            this.columns = data.columns
+            return data
+          }
+        })
+      },
+      async _addFavorite (columnId, userId) {
+        if (this.isFavorite) return
+        const params = {}
+        columnId = this.$route.query.columnId
+        userId = this.userId
+        return await addFavoriteColumn(params, columnId, this.userId).then(data => {
+          if (data.code === ERR_OK) {
+            this._getFavoriteColumn(userId)
+            return data
+          }
+        })
+      },
+      async _deleteFavoriteColumn (columnId, userId) {
+        const params = {}
+        userId = this.userId
+        return await deleteFavoriteColumn(params, columnId, this.userId).then(data => {
+          if (data.code === ERR_OK) {
+            this._getFavoriteColumn(userId)
+            return data
+          }
+        })
+      },
+      addHistory () {
+        const params = {}
+          // let userId = this.userId
+        let columnId = this.$route.query.columnId
+        addFavoriteHistory(params, columnId, this.userId).then(data => {
+          if (data.code === ERR_OK) {
+            return data
+          }
+        })
+      }
+    },
+    created () {
+      // 59f02fa8c277b7f7d90ac0b1
+      this.userId = storage.get('aiwei').userInfo.openId
+      this.columnId = this.$route.query.columnId
+      this._getCoursesByColumnId(this.$route.query.columnId)
+      this._getCoursesById(this.$route.query.columnId)
+      this._getFavoriteColumn()
+      this.addHistory()
+    },
+    mounted () {
+      feather.replace()
+      this.player = videojs('my-player')
+      // this.player.src = this.courses[0].videoUrl
+    }
+  }
+</script>
+
+<style lang="stylus">
+  @import "~common/stylus/main";
+
+  #column-video
+    background #f7f7f7
+    .video-js .vjs-big-play-button
+      top 200px
+      left 375px
+      margin-top -1em
+      margin-left -1em
+      line-height 2em
+      height 2em
+      width 2em
+      border-radius 1em
+    .video-js
+      width 750px
+      height 400px
+      .vjs-poster
+        background-size 100% 100%
+    .column-top
+      width 750px
+      // height 400px
+      display flex
+      flex-flow column
+      background #fff
+    .background
+      width 750px
+      height 400px
+    .operation
+      display flex
+      width 710px
+      height 88px
+      justify-content space-between
+      margin 0 20px 0 20px
+      .operation-left
+        display flex
+        align-items center
+        font-size 22px
+        color #636363
+        > svg
+          color #636363
+          width 40px
+          height 40px
+          margin-right 17px
+      .operation-right
+        display flex
+        section
+          display flex
+          align-items center
+          font-size 22px
+          color #636363
+          &.isFavorite
+            color red
+          .isFavorite
+            color red
+          > svg
+            width 40px
+            height 40px
+            color #636363
+          &:nth-of-type(1)
+            margin-right 54px
+            > svg
+              margin-right 10px
+          &:nth-of-type(2)
+            > svg
+              margin-right 20px
+</style>

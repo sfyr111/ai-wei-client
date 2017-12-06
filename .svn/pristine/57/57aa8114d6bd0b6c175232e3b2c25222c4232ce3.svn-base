@@ -1,0 +1,72 @@
+<template>
+  <div class="course-column">
+    <div class="column-content">
+      <div class="content-top">
+        <div class="top-left">
+          <span>共99节课</span>
+          <div class="top-time">
+            <span>时长共</span>
+            <span>30分钟</span>
+          </div>
+        </div>
+        <div class="top-sort">
+          <i class="sort-icon"></i>
+          <span>倒序</span>
+        </div>
+      </div>
+      <div>
+        <course-item></course-item>
+        <course-item></course-item>
+        <course-item></course-item>
+        <course-item></course-item>
+        <course-item></course-item>
+        <course-item></course-item>
+        <course-item></course-item>
+        <course-item></course-item>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import CourseItem from 'components/course-item/course-item'
+export default {
+  name: 'course-column',
+  props: {},
+  data () {
+    return {}
+  },
+  computed: {},
+  components: {
+    CourseItem
+  },
+  watch: {},
+  methods: {
+  },
+  created () {},
+  mounted () {
+  }
+}
+</script>
+
+<style lang="stylus" scoped>
+  @import "~common/stylus/main";
+  
+  .column-content
+      background #fff
+      padding 0 20px 0 20px
+      .content-top
+        font-size 24px
+        color #626262
+        border-bottom 3px solid #f7f7f7 
+      .top-left
+        display flex
+        .top-time
+          display flex
+          margin-left 20px
+      .content-top
+        height 88px
+        display flex
+        justify-content space-between
+        align-items center  
+</style>

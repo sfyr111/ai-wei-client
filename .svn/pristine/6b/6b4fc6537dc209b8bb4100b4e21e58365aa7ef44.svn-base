@@ -1,0 +1,18 @@
+<template>
+  <div id="cart-app">
+    cart
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'cart'
+}
+</script>
+
+<style lang="stylus">
+@import "~common/stylus/main";
+
+body
+  background-color #fbf9fe
+</style>

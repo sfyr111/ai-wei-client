@@ -1,0 +1,89 @@
+<template>
+  <div id="user">
+    <div class="user-info">
+      <div class="avatar">
+        <img :src="userInfo.avatar" alt="头像">
+      </div>
+      <div class="name">{{userInfo.name}}</div>
+    </div>
+    <div class="features-warpper">
+      <div class="cell">
+        <i></i>
+        <span>专栏留言</span>
+      </div>
+    </div>
+    <tab selectedPage="user"></tab>
+  </div>
+</template>
+
+<script>
+  import Tab from 'components/tab/tab'
+//  import { ERR_OK } from 'common/api/config'
+  import { mapGetters } from 'vuex'
+
+  export default {
+    name: 'user',
+    mixins: [],
+    props: {
+    },
+    data () {
+      return {
+        Tab
+      }
+    },
+    computed: {
+      ...mapGetters({
+        userInfo: 'userInfo',
+        token: 'token'
+      })
+    },
+    components: {
+      Tab
+    },
+    methods: {
+    },
+    created () {
+      console.log(this.userInfo)
+    },
+    mounted () {}
+  }
+</script>
+
+<style lang="stylus">
+  @import "~common/stylus/main";
+
+  #user
+    .user-info
+      display flex
+      align-items center
+      margin-top 30px
+      height 150px
+      width 100%
+      background-color $color-background-d
+      .avatar
+        margin-left 20px
+        > img
+          height 116px
+          width 116px
+          border-radius 50%
+       .name
+        margin-left 40px
+
+    .features-warpper
+      .cell
+        display flex
+        align-items center
+        padding 30px 0
+        background-color $color-background-d
+        margin-top 30px
+        > i
+          margin-left 20px
+          display block
+          height 40px
+          width 40px
+          bg-image('./image/u')
+          background-size 100%
+        > span
+          margin-left 40px
+          font-size $font-size-small * 2
+</style>

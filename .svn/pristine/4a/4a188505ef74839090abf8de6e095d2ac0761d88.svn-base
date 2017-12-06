@@ -1,0 +1,18 @@
+<template>
+  <div id="favorite-app">
+    cart
+  </div>
+</template>
+
+<script>
+  export default {
+    name: 'favorite'
+  }
+</script>
+
+<style lang="stylus">
+  @import "~common/stylus/main";
+
+  body
+    background-color #fbf9fe
+</style>

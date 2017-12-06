@@ -1,0 +1,41 @@
+<template>
+  <div class="classify-lists">
+    <div>
+      <img src="./pic01_02_02.png"class="top-icon"></i>
+    </div>
+    <div class="content">
+      <column-cell></column-cell>
+    </div>
+  </div>
+</template>
+
+<script>
+  import ColumnCell from 'components/column-cell/column-cell'
+
+  export default {
+    name: 'classify-lists',
+    props: {},
+    data () {
+      return {}
+    },
+    computed: {},
+    components: {
+      ColumnCell
+    },
+    watch: {},
+    methods: {},
+    created () {},
+    mounted () {}
+  }
+</script>
+
+<style lang="stylus" scoped>
+  @import "~common/stylus/main";
+  .classify-lists
+    .top-icon
+      display inline-block
+      width 750px
+      height 388px
+    .content
+      padding-top 15px
+</style>

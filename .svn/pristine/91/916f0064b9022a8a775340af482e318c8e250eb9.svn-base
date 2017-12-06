@@ -1,0 +1,72 @@
+<template>
+  <div id="app-column">
+    <div class="background">
+      <div class="operation">
+        <div class="operation-left">
+          <i data-feather="menu"></i>
+          <span>详情</span>
+        </div>
+        <div class="operation-right">
+          <section>
+            <i data-feather="heart"></i>
+            <span>收藏</span>
+          </section>
+          <section>
+            <i data-feather="share"></i>
+            <span>分享</span>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+  import { getCoursesByColumnId } from './api'
+  import { ERR_OK } from 'common/api/config'
+  import feather from 'feather-icons'
+
+  export default {
+    name: 'column',
+    mixins: [],
+    props: {},
+    data () {
+      return {
+        courses: ''
+      }
+    },
+    computed: {},
+    components: {},
+    methods: {
+      async _getCoursesByColumnId (columnId) {
+        const params = {}
+        return getCoursesByColumnId(params, columnId).then(data => {
+          if (data.code === ERR_OK) {
+            this.courses = data.courses
+            return data
+          }
+        })
+      }
+    },
+    created () {
+      // 59f02fa8c277b7f7d90ac0b1
+      this._getCoursesByColumnId(this.$route.query.columnId)
+    },
+    mounted () {
+      feather.replace()
+    }
+  }
+</script>
+
+<style lang="stylus">
+  @import "~common/stylus/main";
+
+  #app-column
+    .background
+      width 750px
+      height 400px
+      background-size cover
+      background-image: url('http://placeholder.qiniudn.com/750x400/444/ccc')
+      .operation-left > svg
+        color red
+</style>

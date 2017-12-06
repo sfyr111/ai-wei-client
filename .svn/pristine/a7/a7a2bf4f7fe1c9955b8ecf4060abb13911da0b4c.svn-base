@@ -1,0 +1,42 @@
+<template>
+  <div class="course-video">
+    <video
+      id="my-player"
+      class="video-js"
+      controls
+      preload="auto"
+      :poster="require('./pic03_02.png')"
+      data-setup='{}' >
+      <source src="https://flv2.bn.netease.com/videolib3/1711/04/uwieG3913/HD/uwieG3913-mobile.mp4 " type="video/mp4"></source>
+    </video>
+  </div>
+</template>
+
+<script>
+  
+  export default {
+    name: 'course-video',
+    deta () {
+      return {
+        img: ''
+      }
+    },
+    methods: {
+      play () {
+      }
+    },
+    mounted () {
+      var player = videojs('my-player')
+      videojs.options.controls = false
+      console.log(player.controls)
+    }
+  }
+</script>
+
+<style lang="stylus" scoped>
+  @import "~common/stylus/main";
+  .video-js
+    width 750px
+    height 400px
+</style>
+

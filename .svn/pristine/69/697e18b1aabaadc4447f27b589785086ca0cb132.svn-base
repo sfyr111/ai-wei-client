@@ -1,0 +1,32 @@
+import 'common/js/main'
+
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import App from './App'
+// import store from './store'
+import store from 'store'
+// const Home = r => require.ensure([], () => r(require('@/components/HelloFromVux')), 'home')
+const advertisement = r => require.ensure([], () => r(require('@/pages/index/components/advertisement/advertisement')), 'advertisement')
+Vue.use(VueRouter)
+
+const routes = [{
+  path: '/advertisement/:id',
+  name: 'advertisement',
+  component: advertisement
+}]
+
+const router = new VueRouter({
+  // mode: 'history',
+  routes
+})
+
+Vue.config.productionTip = false
+
+Vue.prototype.$log = console.log.bind(console)
+
+/* eslint-disable no-new */
+new Vue({
+  router,
+  store,
+  render: h => h(App)
+}).$mount('#app-box')

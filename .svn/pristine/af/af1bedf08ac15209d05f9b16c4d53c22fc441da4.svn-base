@@ -1,0 +1,48 @@
+<template>
+  <div class="advertisement">
+    <div>
+      <img class="img" src="./广告页_02.png" alt="">
+    </div>
+    <div class="content">
+      10月25日22时40分讯 见过养仓鼠养香猪的，但你见过在家养黄金蟒的没？家住重庆市九龙坡的赵先生养了一条黄金蟒当宠物。3年后，当初比筷子长不了多少的黄金蟒长到了四五米，赵先生心里有点发怵，不想养了，可这黄金蟒究竟该如何处理呢？24日，赵先生将自己亲手养大的黄金蟒送到了重庆市动物园。
+　　  长四米五重80斤 目前还在适应环境
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'advertisement',
+  props: {},
+  data () {
+    return {}
+  },
+  computed: {},
+  components: {},
+  watch: {},
+  methods: {},
+  created () {},
+  mounted () {}
+}
+</script>
+
+<style lang="stylus" scoped>
+  @import "~common/stylus/main";
+
+  .advertisement
+    position fixed
+    top 0
+    bottom 0
+    left 0
+    right 0
+    z-index 100
+    background #fff
+    .img
+      width 750px
+      height 390px
+    .content
+      text-indent 2em
+      padding 50px 80px 0 80px
+      font-size 25px
+      line-height 50px
+</style>

@@ -1,0 +1,137 @@
+<template>
+  <div class="column-cell">
+    <a :href="`/column.html#/?columnId=${item._id}`">
+      <div class="list-item">
+        <div class="list-img">
+          <img :src="item.imgUrl" alt="">
+        </div>
+        <div class="list-font">
+          <div class="font-tltle">
+            <span>{{item.name}}</span>
+          </div>
+          <div class="font-content">
+            <span>{{item.subtitle}}</span>
+          </div>
+          <div class="font-bottom">
+            <div class="font-time">
+              <span>{{updateTime(item.updateTime)}}</span>
+            </div>
+            <div class="font-course">
+              <span>{{item.lastCourse}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
+  </div>
+</template>
+
+<script>
+  export default {
+    name: 'column-cell',
+    props: {
+      item: {
+        type: Object,
+        default () {
+          return {
+            _id: '59e7163129a1430b980ca41f',
+            backgroundUrl: 'http://专栏详情背景图片',
+            classifyId: '59e7163129a1430b980ca41f',
+            classifyName: '课程专栏',
+            createTime: 1508316721019,
+            creator: 'objectid',
+            imgUrl: 'http://placeholder.qiniudn.com/800x300/FFEF7D/ffffff',
+            introduction: '简介简介简介简介简介',
+            lastCourse: '最新课程的name',
+            name: '课程专栏',
+            popular: true,
+            subtitle: '子标题',
+            updateTime: 1508484702552
+          }
+        }
+      }
+    },
+    data () {
+      return {}
+    },
+    computed: {},
+    components: {},
+    watch: {},
+    methods: {
+      updateTime (updateTime) {
+        const update = (Date.now() - updateTime) / 1000 / 60 / 60
+        if (update < 24 && update > 1) { // 1小时 - 24小时
+          return (update | 0) + '小时前更新'
+        } else if (update > 24) { // > 24小时
+          return (update / 24 | 0) + '天前更新'
+        } else { // 1小时以内
+          return '刚刚更新'
+        }
+      }
+    },
+    created () {},
+    mounted () {}
+  }
+</script>
+
+<style lang="stylus" scoped>
+  @import "~common/stylus/main";
+
+  .column-cell
+    padding 0 20px 0 20px
+    background-color #fff
+    .list-item
+      height 220px
+      display flex
+      flex-direction row
+      border-bottom 3px solid #f7f7f7
+      .list-img
+        display flex
+        align-items center
+        width 170px
+        img
+          width 132px
+          height 170px
+          border-radius 15px
+          margin-left 5px
+      .list-font
+        margin-left 15px
+        display flex
+        justify-content center
+        flex-direction column
+        width 495px
+        .font-tltle
+          span
+            color #262626
+            font-size 24px
+            font-weight 600
+        .font-content
+          display flex
+          margin-top 12px
+          min-height 70px
+          width 400px
+          display flex
+          align-items center
+          span
+            font-size 24px
+            color #636363
+            line-height 35px
+        .font-bottom
+          margin-top 8px
+          display flex
+          justify-content space-between
+          align-items center
+          flex-direction row
+          .font-time
+            display flex
+            padding 5px
+            border 1px solid #e5e5e5
+            border-radius 8px
+            span
+              font-size 24px
+              color #828282
+          .font-course
+            font-size 24px
+            span
+              color #636363
+</style>

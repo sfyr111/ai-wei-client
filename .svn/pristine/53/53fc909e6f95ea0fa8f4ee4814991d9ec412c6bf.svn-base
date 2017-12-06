@@ -1,0 +1,49 @@
+<template>
+  <div class="classify-tabs">
+      <a class="tab-item" :href="`/classify.html#/?classifyId=${item._id}`">
+        <img :src="require(`./${item.name}@2x.png`)" class="tab-icon" alt="">
+        <span class="tab-link">{{item.name}}</span>
+      </a>
+  </div>
+</template>
+
+<script>
+  export default {
+    name: 'classify-tabs',
+    props: {
+      item: {
+        type: Object,
+        default: ''
+      }
+    },
+    data () {
+      return {
+      }
+    },
+    computed: {},
+    components: {},
+    watch: {},
+    methods: {},
+    created () {
+    },
+    mounted () {}
+  }
+</script>
+
+<style lang="stylus" scoped type="text/stylus">
+  @import "~common/stylus/main";
+
+  .classify-tabs
+    .tab-item
+      display flex
+      flex-direction column
+      align-items center
+      .tab-link
+        color #262626
+        font-size 22px
+      .tab-icon
+        display inline-block
+        width 65px
+        height 65px
+        margin-bottom 12px
+</style>

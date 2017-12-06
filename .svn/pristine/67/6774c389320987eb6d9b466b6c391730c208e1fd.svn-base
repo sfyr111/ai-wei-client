@@ -1,0 +1,178 @@
+<template>
+  <div id="app-column">
+    <div class="column-top">
+      <img src="./img/pic03_02.png" class="background" alt="">
+      <div class="operation">
+        <div class="operation-left" @click="introduce">
+          <i data-feather="menu"></i>
+          <span>{{!isShowIntroduce ? '详情' : '课程'}}</span>
+        </div>
+        <div class="operation-right">
+          <section @click="_addFavorite(columnId)" v-show="!isFavorite">
+            <i data-feather="heart"></i>
+            <span>收藏</span>
+          </section>
+          <section v-show="isFavorite" class="">
+            <i data-feather="heart" class="isFavorite"></i>
+            <span>已收藏</span>
+          </section>
+          <!-- <section>
+            <i data-feather="share"></i>
+            <span>分享</span>
+          </section> -->
+        </div>
+      </div>
+    </div>
+    <course-column :courses="courses" v-show="!isShowIntroduce"></course-column>
+    <course-introduce v-show="isShowIntroduce"></course-introduce>
+  </div>
+</template>
+
+<script>
+  import CourseIntroduce from './components/course-introduce/course-introduce'
+  import CourseColumn from './components/course-column/course-column'
+  import { getFavoriteColumn, addFavoriteColumn, getCoursesByColumnId } from './api'
+  import { ERR_OK } from 'common/api/config'
+  import feather from 'feather-icons'
+  import { mapGetters } from 'vuex'
+  import { addFavoriteHistory } from 'common/api'
+  import storage from 'good-storage'
+  export default {
+    name: 'column',
+    mixins: [],
+    props: {},
+    data () {
+      return {
+        courses: [],
+        isShowIntroduce: false,
+        columns: [],
+        userId: '',
+        columnId: ''
+      }
+    },
+    computed: {
+      ...mapGetters([
+        'userInfo'
+      ]),
+      isFavorite () {
+        return this.columns.filter(item => {
+          return item._id === this.$route.query.columnId
+        }).length
+      }
+    },
+    components: {
+      CourseIntroduce,
+      CourseColumn
+    },
+    methods: {
+      async _getCoursesByColumnId (columnId) {
+        const params = {}
+        return getCoursesByColumnId(params, columnId).then(data => {
+          if (data.code === ERR_OK) {
+            this.courses = data.audio
+            return data
+          }
+        })
+      },
+      introduce () {
+        this.isShowIntroduce = !this.isShowIntroduce
+      },
+      async _getFavoriteColumn () {
+        const params = {}
+        return await getFavoriteColumn(params, this.userId).then(data => {
+          if (data.code === ERR_OK) {
+            this.columns = data.columns
+            return data
+          }
+        })
+      },
+      async _addFavorite (columnId, userId) {
+        if (this.isFavorite) return
+        const params = {}
+        columnId = this.$route.query.columnId
+        userId = this.userId
+        return await addFavoriteColumn(params, columnId, this.userId).then(data => {
+          if (data.code === ERR_OK) {
+            this._getFavoriteColumn(userId)
+            return data
+          }
+        })
+      },
+      addHistory () {
+        const params = {}
+          // let userId = this.userId
+        let columnId = this.$route.query.columnId
+        addFavoriteHistory(params, columnId, this.userId).then(data => {
+          if (data.code === ERR_OK) {
+            return data
+          }
+        })
+      }
+    },
+    created () {
+      // 59f02fa8c277b7f7d90ac0b1
+      this.userId = storage.get('aiwei').userInfo._id
+      this.columnId = this.$route.query.columnId
+      this._getCoursesByColumnId(this.$route.query.columnId)
+      this._getFavoriteColumn()
+      this.addHistory()
+    },
+    mounted () {
+      feather.replace()
+    }
+  }
+</script>
+
+<style lang="stylus" type="text/stylus">
+  @import "~common/stylus/main";
+
+  #app-column
+    background #f7f7f7
+    .column-top
+      position relative
+      width 750px
+      height 400px
+    .background
+      width 750px
+      height 400px
+    .operation
+      display flex
+      width 710px
+      justify-content space-between
+      padding 0 20px 0 20px
+      position absolute
+      bottom 25px
+      z-index 50
+      .operation-left
+        display flex
+        align-items center
+        font-size 24px
+        color #fff
+        > svg
+          color #fff
+          width 40px
+          height 40px
+          margin-right 17px
+      .operation-right
+        display flex
+        section
+          display flex
+          align-items center
+          font-size 24px
+          color #fff
+          &.isFavorite
+            color red
+          .isFavorite
+            color red
+          > svg
+            width 40px
+            height 40px
+            color #fff
+          &:nth-of-type(1)
+            margin-right 54px
+            > svg
+              margin-right 10px
+          &:nth-of-type(2)
+            > svg
+              margin-right 22px
+</style>

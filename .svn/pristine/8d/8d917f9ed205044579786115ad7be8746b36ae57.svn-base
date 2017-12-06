@@ -1,0 +1,5 @@
+@import '~stylus-px2rem/index'
+@import '~common/fonts/iconfont.css'
+@import '~common/stylus/variable'
+@import "~common/stylus/mixin"
+html-font-size = 75px;

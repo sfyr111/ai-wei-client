@@ -1,0 +1,124 @@
+<template>
+  <div class="teacher-list">
+    <a href="">
+      <div class="list-item">
+        <div class="list-img">
+          <img :src="item.img" alt="">
+        </div>
+        <div class="list-font">
+          <div class="font-tltle">
+            <span>{{item.title}}</span>
+          </div>
+          <div class="font-content">
+            <span>{{item.content}}</span>
+          </div>
+          <div class="font-bottom">
+            <div class="font-time">
+              <span>{{item.poTime}}</span>
+            </div>
+            <div class="font-course">
+              <span>{{item.course}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'teacher-list',
+  props: {
+    item: {
+      type: Object,
+      default () {
+        return {
+          title: '吴老师·智能时代',
+          content: '今天为大家介绍一下人工智能联盟中的新秀，机器人领域的独角兽',
+          poTime: '10小时前更新',
+          course: '第99讲|AI教育',
+          img: 'http://placeholder.qiniudn.com/800x300/FFEF7D/ffffff'
+        }
+      }
+    }
+  },
+  data () {
+    return {}
+  },
+  computed: {},
+  components: {},
+  watch: {},
+  methods: {},
+  created () {},
+  mounted () {}
+}
+</script>
+
+<style lang="stylus" scoped>
+  @import "~common/stylus/main";
+  .teacher-list
+    padding 0 20px 0 20px
+    background-color #fff
+    .list-item
+      height 220px
+      // width 750px
+      display flex
+      // justify-content center
+      flex-direction row
+      // border-top 1px solid #D5D5D5
+      border-bottom 3px solid #f7f7f7
+      .list-img
+        display flex
+        align-items center
+        width 170px
+        img
+          width 132px
+          height 170px
+          border-radius 15px
+          margin-left 5px
+      .list-font
+        margin-left 15px
+        display flex
+        // align-items center
+        justify-content center
+        flex-direction column
+        width 495px
+        .font-tltle
+          //padding-top 5px
+          span
+            color #262626
+            font-size 24px
+            font-weight 600
+        .font-content
+          display flex
+          margin-top 12px
+          min-height 70px
+          width 400px
+          display flex
+          align-items center
+          span
+            font-size 24px
+            color #636363
+            line-height 35px
+        .font-bottom
+          margin-top 8px
+          display flex
+          justify-content space-between
+          align-items center
+          flex-direction row
+          .font-time
+            display flex
+            padding 5px
+            // height 32px
+            // width 124px
+            border 1px solid #e5e5e5
+            border-radius 8px
+            span
+              font-size 24px
+              color #828282
+          .font-course
+            font-size 24px
+            span
+              color #636363
+</style>

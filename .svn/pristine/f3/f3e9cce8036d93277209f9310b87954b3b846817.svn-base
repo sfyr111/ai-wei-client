@@ -1,0 +1,33 @@
+<template>
+  <div id="favorite-app">
+    wwww
+  </div>
+</template>
+
+<script>
+  export default {
+    name: 'favorite',
+    props: {},
+    data () {
+      return {
+      }
+    },
+    computed: {
+    },
+    components: {
+    },
+    watch: {},
+    methods: {
+    },
+    created () {
+    },
+    mounted () {}
+  }
+</script>
+
+<style lang="stylus">
+  @import "~common/stylus/main";
+
+  body
+    background-color #fbf9fe
+</style>

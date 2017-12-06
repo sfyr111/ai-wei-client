@@ -1,0 +1,9 @@
+import api from 'common/api/service'
+
+export const getFavoriteColumns = async function (data = {}, userId) {
+  const url = `/favorite/user/${userId}`
+
+  const params = { ...data }
+  const response = await api.get(url, params)
+  return response
+}

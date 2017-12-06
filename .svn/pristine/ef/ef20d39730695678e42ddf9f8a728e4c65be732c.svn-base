@@ -1,0 +1,48 @@
+<template>
+  <div id="app-classify">
+    <classify-list></classify-list>
+  </div>
+</template>
+
+<script>
+  import ClassifyList from 'pages/classify/components/classify-list/classify-list'
+  import { getColumnsByClassifyId } from './api'
+  import { ERR_OK } from 'common/api/config'
+  export default {
+    name: 'classify',
+    mixins: [],
+    props: {},
+    data () {
+      return {
+        columns: ''
+      }
+    },
+    computed: {},
+    components: {
+      ClassifyList
+    },
+    methods: {
+      async _getColumnsByClassifyId (classifyId) {
+        const params = {}
+        return getColumnsByClassifyId(params, classifyId).then(data => {
+          if (data.code === ERR_OK) {
+            this.columns = data.column
+            return data
+          }
+        })
+      }
+    },
+    created () {
+      this._getColumnsByClassifyId(this.$route.query.classifyId)
+    },
+    mounted () {}
+  }
+</script>
+
+<style lang="stylus">
+  @import "~common/stylus/main";
+
+  body
+    background-color #fbf9fe
+    width 750px
+</style>

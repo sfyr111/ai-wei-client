@@ -1,0 +1,60 @@
+<template>
+  <div class="course-column">
+    <div class="column-content">
+        <course-item v-for="(item, index) in courses" :item="item" :key="item._id" @play="play" :pause="pause" :currentPlay="audioUrl"></course-item>
+    </div>
+  </div>
+</template>
+
+<script>
+import CourseItem from 'pages/column-video/components/course-item/course-item'
+export default {
+  name: 'course-column',
+  props: {
+    courses: {
+      type: Array,
+      defalut: ''
+    }
+  },
+  data () {
+    return {
+      pour: '倒序',
+      audioUrl: '',
+      pause: false
+    }
+  },
+  computed: {},
+  components: {
+    CourseItem
+  },
+  watch: {},
+  methods: {
+    play (url) {
+      this.audioUrl = url
+      // console.log(this.$refs.audio)
+      // this.$refs.audio.play()
+      // document.querySelectorAll('audio')[0].play()
+    },
+    invertedOrder () {
+      if (this.pour === '倒序') {
+        this.pour = '正序'
+        this.courses.reverse()
+      } else {
+        this.pour = '倒序'
+        this.courses.reverse()
+      }
+    }
+  },
+  created () {},
+  mounted () {
+  }
+}
+</script>
+
+<style lang="stylus" scoped>
+  @import "~common/stylus/main";
+  
+  .column-content
+      background #fff
+      // padding 0 20px 0 20px
+</style>

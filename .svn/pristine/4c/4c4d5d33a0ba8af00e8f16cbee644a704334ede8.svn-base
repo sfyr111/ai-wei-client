@@ -1,0 +1,60 @@
+<template>
+  <div id="app">
+    <router-view></router-view>
+    <tab selectedPage="home"></tab>
+  </div>
+</template>
+
+<script>
+  import Tab from 'components/tab/tab'
+<<<<<<< .mine
+=======
+  // import Carousel from 'pages/index/components/carousel/carousel'
+  import ClassifyTabs from 'pages/index/components/classify-tabs/classify-tabs'
+  import columnCell from 'components/column-cell/column-cell'
+//  import { getParameterByName } from 'common/js/util'
+  import { wechatLogin, getPopularColumns, getClassify, getBanner } from './api'
+  import { ERR_OK } from 'common/api/config'
+  import { mapGetters, mapActions } from 'vuex'
+  import { Swiper, SwiperItem } from 'vux'
+>>>>>>> .r11787
+  export default {
+    name: 'app',
+    mixins: [],
+    props: {
+    },
+    data () {
+      return {
+        classify: '',
+        popularColumns: '',
+        banners: []
+      }
+    },
+    computed: {
+    },
+    components: {
+      Tab
+    },
+    methods: {
+    },
+    created () {
+<<<<<<< .mine
+=======
+      let code = 'test'
+//      code = getParameterByName('code', window.location.href)
+//      if (process.env.NODE_ENV !== 'production') code = 'test'
+      this._wechatLogin(code)
+      this._concurrent()
+>>>>>>> .r11787
+    },
+    mounted () {}
+  }
+</script>
+
+<style lang="stylus" type="text/stylus">
+  @import "~common/stylus/main";
+
+  body
+    background-color #fbf9fe
+    width 750px
+</style>

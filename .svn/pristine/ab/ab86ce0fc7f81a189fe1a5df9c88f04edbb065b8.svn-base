@@ -1,0 +1,79 @@
+<template>
+  <div class="carousel">
+    <swiper :list="list" height="4.94rem" auto dots-position="center" dots-class="custom-bottom"></swiper>
+  </div>
+</template>
+
+<script>
+import { Swiper } from 'vux'
+export default {
+  name: 'carousel',
+  props: {
+    // list: {
+    //   type: Array,
+    //   defalut: [{
+    //     url: 'javascript:',
+    //     img: 'http://placeholder.qiniudn.com/800x300/FF3B3B/ffffff'
+    //   },
+    //   {
+    //     url: 'javascript:',
+    //     img: 'http://placeholder.qiniudn.com/800x300/FFEF7D/ffffff'
+    //   },
+    //   {
+    //     url: 'javascript:',
+    //     img: 'http://placeholder.qiniudn.com/800x300/8AEEB1/ffffff'
+    //   },
+    //   {
+    //     url: 'javascript:',
+    //     img: 'http://placeholder.qiniudn.com/800x300/FFEF7D/ffffff'
+    //   }]
+    // }
+  },
+  data () {
+    return {
+      list: [{
+        url: '/advertisement',
+        img: 'http://placeholder.qiniudn.com/800x300/FF3B3B/ffffff'
+      },
+      {
+        url: '/advertisement',
+        img: 'http://placeholder.qiniudn.com/800x300/FFEF7D/ffffff'
+      },
+      {
+        url: '/advertisement',
+        img: 'http://placeholder.qiniudn.com/800x300/8AEEB1/ffffff'
+      },
+      {
+        url: '/advertisement',
+        img: 'http://placeholder.qiniudn.com/800x300/FFEF7D/ffffff'
+      }]
+    }
+  },
+  computed: {},
+  components: {
+    Swiper
+  },
+  watch: {},
+  methods: {},
+  created () {},
+  mounted () {}
+}
+</script>
+
+<style lang="stylus" >
+  @import "~common/stylus/main";
+
+  .carousel
+    .vux-slider > .vux-indicator.custom-bottom
+      bottom 14px
+    .vux-slider > .vux-swiper > .vux-swiper-item > a > .vux-swiper-desc
+      background-image none
+    .vux-slider > .vux-indicator > a > .vux-icon-dot, .vux-slider .vux-indicator-right > a > .vux-icon-dot
+      background-color #fff
+      // border 1px solid #444
+      border-radius 2px
+      width 20px
+      height 4px
+    .vux-slider > .vux-indicator > a > .vux-icon-dot.active, .vux-slider .vux-indicator-right > a > .vux-icon-dot.active
+      background-color #444
+</style>

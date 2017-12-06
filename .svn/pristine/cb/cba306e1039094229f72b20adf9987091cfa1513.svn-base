@@ -1,0 +1,46 @@
+<template>
+  <div id="app-course">
+  </div>
+</template>
+
+<script>
+  import { getCoursesByColumnId } from './api'
+  import { ERR_OK } from 'common/api/config'
+
+  export default {
+    name: 'course',
+    mixins: [],
+    props: {},
+    data () {
+      return {
+        courses: ''
+      }
+    },
+    computed: {},
+    components: {},
+    methods: {
+      async _getCoursesByColumnId (columnId) {
+        const params = {}
+        return getCoursesByColumnId(params, columnId).then(data => {
+          if (data.code === ERR_OK) {
+            this.courses = data.courses
+            return data
+          }
+        })
+      }
+    },
+    created () {
+      // 59f02fa8c277b7f7d90ac0b1
+      this._getCoursesByColumnId(this.$route.query.columnId)
+    },
+    mounted () {}
+  }
+</script>
+
+<style lang="stylus">
+  @import "~common/stylus/main";
+
+  body
+    background-color #fbf9fe
+    width 750px
+</style>

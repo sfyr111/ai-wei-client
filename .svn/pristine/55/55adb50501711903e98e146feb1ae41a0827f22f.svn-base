@@ -1,0 +1,42 @@
+<template>
+  <div id="favorite-app">
+    <div class="favorite-content">
+      <teacher-list></teacher-list>
+      <teacher-list></teacher-list>
+    </div>
+    <tab selectedPage="favorite"></tab>
+  </div>
+</template>
+
+<script>
+  import Tab from 'components/tab/tab'
+  import TeacherList from 'components/teacher-list/teacher-list'
+  export default {
+    name: 'favorite',
+    props: {},
+    data () {
+      return {}
+    },
+    computed: {},
+    components: {
+      Tab,
+      TeacherList
+    },
+    watch: {},
+    methods: {},
+    created () {},
+    mounted () {}
+  }
+</script>
+
+<style lang="stylus">
+  @import "~common/stylus/main";
+
+  body
+    background-color #fbf9fe
+  .favorite-content
+    height 1232px
+    padding-top: 10px
+    background #f7f7f7
+    overflow-y auto 
+</style>

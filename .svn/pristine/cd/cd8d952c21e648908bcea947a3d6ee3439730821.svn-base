@@ -1,0 +1,42 @@
+<template>
+  <div id="favorite-app">
+    <div class="favorite-content">
+      <column-cell></column-cell>
+      <column-cell></column-cell>
+    </div>
+    <tab selectedPage="favorite"></tab>
+  </div>
+</template>
+
+<script>
+  import Tab from 'components/tab/tab'
+  import ColumnCell from 'components/column-cell/column-cell'
+  export default {
+    name: 'favorite',
+    props: {},
+    data () {
+      return {}
+    },
+    computed: {},
+    components: {
+      Tab,
+      ColumnCell
+    },
+    watch: {},
+    methods: {},
+    created () {},
+    mounted () {}
+  }
+</script>
+
+<style lang="stylus">
+  @import "~common/stylus/main";
+
+  body
+    background-color #fbf9fe
+  .favorite-content
+    height 1090px
+    padding-top: 10px
+    background #f7f7f7
+    overflow-y auto 
+</style>

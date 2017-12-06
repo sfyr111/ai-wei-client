@@ -1,0 +1,180 @@
+<template>
+  <div class="course-item">
+    <div class="list-item" @click="play(item.videoUrl)">
+      <div class="list-icon">
+        <i class="item-icon" :class="currentPlay != item.videoUrl? 'pause': 'play'"></i>
+      </div>
+      <div class="list-font">
+        <div class="font-title">
+          <!-- <span>第一讲|人工智能起源</span> -->
+          <span>{{item.name}}</span>
+        </div>
+        <div class="font-bottom">
+          <div class="time-play">
+            <span>时长</span>
+            <span>{{sec_to_time(item.duration)}}</span>
+          </div>
+          <!-- <div class="time-percentage">
+            <span>已播放</span>
+            <span>98%</span>
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'course-item',
+  props: {
+    item: {
+      type: Object,
+      defalut: ''
+    },
+    currentPlay: {
+      type: String,
+      defalut: ''
+    },
+    pause: {
+      type: Boolean,
+      defalut: false
+    }
+  },
+  data () {
+    return {
+      currentTime: '00:00:00',
+      ifPaused: true,
+      userId: ''
+    }
+  },
+  computed: {},
+  components: {},
+  watch: {
+    currentPlay: function () {
+      // this.goPlay()
+    }
+  },
+  methods: {
+    play (url) {
+      this.$emit('play', url)
+      // this.goPlay()
+    },
+    goPlay () {
+      if (this.currentPlay === this.item.audioUrl && this.$refs.audio.paused) {
+        this.$refs.audio.play()
+        this.ifPaused = this.$refs.audio.paused
+        this.time()
+      } else {
+        this.$refs.audio.pause()
+        this.ifPaused = this.$refs.audio.paused
+        this.time()
+      }
+    },
+    time () {
+      if (this.ifPaused) {
+        clearTimeout(t)
+        return
+      }
+      var t = setTimeout(this.time, 1000)
+      let time = parseInt(this.$refs.audio.currentTime)
+      this.currentTime = this.sec_to_time(time)
+      if (this.$refs.audio.ended) {
+        clearTimeout(t)
+        this.ifPaused = this.$refs.audio.paused
+        this.$refs.audio.currentTime = 0
+      }
+      // if (time >= this.item.duration) { // 播放完后停止
+      //   this.currentPlay = ''
+      //   document.querySelectorAll('audio')[0].pause()
+      //   document.querySelectorAll('audio')[0].currentTime = 0
+      //   this.currentTime = this.sec_to_time(0)
+      // }
+    },
+    sec_to_time (s) {
+      let t
+      if (s > -1) {
+        var hour = Math.floor(s / 3600)
+        var min = Math.floor(s / 60) % 60
+        var sec = s % 60
+        if (hour < 10) {
+          t = '0' + hour + ':'
+        } else {
+          t = hour + ':'
+        }
+        if (min < 10) {
+          t += '0'
+        }
+        t += min + ':'
+        if (sec < 10) {
+          t += '0'
+        }
+        t += sec.toFixed(0)
+      }
+      return t
+    },
+    updateTime (updateTime) {
+      const update = (Date.now() - updateTime) / 1000 / 60 / 60
+      if (update < 24 && update > 1) { // 1小时 - 24小时
+        return (update | 0) + '小时前更新'
+      } else if (update > 24) { // > 24小时
+        return (update / 24 | 0) + '天前更新'
+      } else { // 1小时以内
+        return '刚刚更新'
+      }
+    }
+  },
+  created () {
+  },
+  mounted () {}
+}
+</script>
+
+<style lang="stylus" scoped>
+  @import "~common/stylus/main";
+
+  .course-item
+    padding 0 20px 0 20px
+    background #fff
+    .list-item
+      height 115px
+      // width 750px
+      display flex
+      // justify-content center
+      align-items center
+      flex-direction row
+      // border-top 1px solid #D5D5D5
+      border-bottom 3px solid #f7f7f7
+      .list-icon
+          width 66px
+          display flex
+          .item-icon
+            display inline-block
+            width 46px
+            height 46px
+            &.pause
+              bg-image('未播状态')
+              background-size 100% 100%
+            &.play
+              bg-image('播放状态')
+              background-size 100% 100%
+      .list-font
+        width 580px
+        // margin-left 33px
+        display flex
+        justify-content space-between
+        .font-title
+          span
+            font-size 24px
+            font-weight 900
+        .font-bottom
+          display flex
+          // justify-content space-between
+          align-items center
+          flex-direction row
+          font-size 18px
+          // margin-top 15px
+          color #636363
+          .time-play
+           //  margin-left 50px
+</style>

@@ -1,0 +1,128 @@
+<template>
+  <div class="course-column">
+    <div class="column-content">
+        <div class="column-item" @click="play(item.videoUrl, item.imgUrl)" v-for="(item, index) in courses" :key="index">
+            <div class="item-icon">
+              <img :src="item.imgUrl" alt="">
+            </div>
+            <div class="item-right">
+              <div class="item-title">{{item.name}}</div>
+              <div class="item-content">{{item.subtitle}}</div>
+              <div class="item-classify">
+                <span class="poTime">{{sec_to_time(item.duration)}}</span>
+                <span class="classify" v-show="currentPlay != item.videoUrl" :class="[item.classifyName==='深度学习'? 'deep':item.classifyName==='语音识别'? 'speech': 'machine']">{{item.classifyName}}</span>
+              </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'course-column',
+  props: {
+    courses: {
+      type: Array,
+      default () {
+      }
+    },
+    currentPlay: {
+      type: String
+    }
+  },
+  data () {
+    return {
+    }
+  },
+  computed: {},
+  components: {
+  },
+  watch: {},
+  methods: {
+    sec_to_time (s) {
+      let t
+      if (s > -1) {
+        var hour = Math.floor(s / 3600)
+        var min = Math.floor(s / 60) % 60
+        var sec = s % 60
+        if (hour < 10) {
+          t = '0' + hour + ':'
+        } else {
+          t = hour + ':'
+        }
+        if (min < 10) {
+          t += '0'
+        }
+        t += min + ':'
+        if (sec < 10) {
+          t += '0'
+        }
+        t += sec.toFixed(0)
+      }
+      return t
+    },
+    play (url, img) {
+      this.$emit('play', {url: url, img: img})
+    }
+  },
+  created () {},
+  mounted () {
+  }
+}
+</script>
+
+<style lang="stylus" scoped>
+  @import "~common/stylus/main";
+  
+  .column-content
+      background #fff
+      // padding 0 20px 0 20px
+      .column-item
+        height 170px
+        display flex
+        margin 0 20px 0 20px
+        border-top 3px solid #f7f7f7
+        .item-icon
+          height 170px
+          display flex
+          align-items center
+          img
+            width 170px
+            height 130px
+        .item-right
+          padding 20px
+          .item-title
+            padding-top 8px
+            font-size 24px
+            font-weight bold
+            color #000
+          .item-content
+            padding-top 10px
+            font-size 23px
+            color #636363
+            height 54px
+            display flex
+            align-items center
+            overflow hidden
+            line-height 27px
+          .item-classify
+            display flex
+            width 500px
+            justify-content space-between
+            align-items: center;
+            margin-top 5px 
+            .poTime
+              font-size 20px
+              color #636363
+            .classify
+              color #fff
+              font-size 18px
+              padding 4px 8px 2px 8px
+              &.deep
+                background #009FEB
+              &.speech
+                background #E565FF
+              &.machine
+                background #FFC900
+</style>

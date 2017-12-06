@@ -1,0 +1,73 @@
+<template>
+  <div class="tab">
+    <a class="tab-item" href="/index.html">
+      <i class="tab-icon"></i>
+      <span class="tab-link">首页</span>
+    </a>
+    <a class="tab-item" href="/favorite.html">
+      <i class="tab-icon"></i>
+      <span class="tab-link">收藏</span>
+    </a>
+    <a class="tab-item" href="/user.html">
+      <i class="tab-icon"></i>
+      <span class="tab-link">我的</span>
+    </a>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'tab',
+  props: {},
+  data () {
+    return {}
+  },
+  computed: {},
+  components: {},
+  watch: {},
+  methods: {},
+  created () {},
+  mounted () {}
+}
+</script>
+
+<style lang="stylus" scoped>
+  @import "~common/stylus/main";
+  .tab
+    overflow: hidden
+    display: flex
+    justify-content: space-around
+    align-items center
+    color #444
+    background-color #fff
+    position fixed
+    bottom 0
+    left 0
+    right 0
+    font-size 20px
+    height 98px
+    border-top 1px solid #ddd
+    border-image: linear-gradient(#ddd, transparent) 30 30
+    .tab-item
+      display flex
+      flex-direction column
+      justify-content center
+      align-items center
+      .tab-icon
+        display inline-block
+        width 45px
+        height 40px
+        margin-bottom 10px
+      &:nth-of-type(1)
+        .tab-icon
+          bg-image('菜单-首页-焦点')
+          background-size 100% 100%
+      &:nth-of-type(2)
+        .tab-icon
+          bg-image('菜单-首页-焦点')
+          background-size 100% 100%
+      &:nth-of-type(3)
+        .tab-icon
+          bg-image('菜单-首页-焦点')
+          background-size 100% 100%
+</style>

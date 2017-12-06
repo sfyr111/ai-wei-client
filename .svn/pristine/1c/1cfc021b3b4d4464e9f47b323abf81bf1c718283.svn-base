@@ -1,0 +1,104 @@
+<template>
+  <div class="course-column">
+    <div class="column-content">
+      <div class="content-top">
+        <div class="top-left">
+          <span>共99节课</span>
+          <div class="top-time">
+            <span>时长共</span>
+            <span>30分钟</span>
+          </div>
+        </div>
+        <div class="top-sort" @click="invertedOrder">
+          <i class="sort-icon" :class="[pour == '倒序'? 'pour': 'just']"></i>
+          <span>{{pour}}</span>
+        </div>
+      </div>
+      <div>
+        <course-item v-for="(item, index) in courses" :item="item" :key="item._id" @play="play" :pause="pause" :currentPlay="audioUrl"></course-item>
+         <audio :src="audioUrl" ref="audio"></audio>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import CourseItem from 'components/course-item/course-item'
+export default {
+  name: 'course-column',
+  props: {
+    courses: {
+      type: Array,
+      defalut: ''
+    }
+  },
+  data () {
+    return {
+      pour: '倒序',
+      audioUrl: '',
+      pause: false
+    }
+  },
+  computed: {},
+  components: {
+    CourseItem
+  },
+  watch: {},
+  methods: {
+    play (url) {
+      this.audioUrl = url
+      this.$refs.audio.play()
+    },
+    invertedOrder () {
+      if (this.pour === '倒序') {
+        this.pour = '正序'
+        this.courses.reverse()
+      } else {
+        this.pour = '倒序'
+        this.courses.reverse()
+      }
+    }
+  },
+  created () {},
+  mounted () {
+  }
+}
+</script>
+
+<style lang="stylus" scoped>
+  @import "~common/stylus/main";
+  
+  .column-content
+      background #fff
+      padding 0 20px 0 20px
+      .content-top
+        font-size 24px
+        color #626262
+        border-bottom 3px solid #f7f7f7 
+      .top-left
+        display flex
+        .top-time
+          display flex
+          margin-left 20px
+      .top-sort
+        display flex
+        align-items center
+        span
+          padding-top 2px
+        .sort-icon
+          display inline-block
+          width 30px
+          height 30px
+          margin-right 10px
+          &.pour
+            bg-image('倒叙')
+            background-size 100% 100%
+          &.just
+            bg-image('正叙')
+            background-size 100% 100%
+      .content-top
+        height 88px
+        display flex
+        justify-content space-between
+        align-items center  
+</style>

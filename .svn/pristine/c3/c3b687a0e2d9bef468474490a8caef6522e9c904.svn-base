@@ -1,0 +1,76 @@
+<template>
+  <div class="course-introduce">
+    <div class="introduce-content">
+      <div class="introduce-top">
+        <div class="title">{{column.name}}</div>
+        <div class="content">{{column.subtitle}}</div>
+        <div class="toUpdate">
+          已更新{{column.numberOfUpdate}}篇
+        </div>
+      </div>
+      <div class="introduce-title">
+      </div>
+      <div class="characteristic">
+        <div contenteditable="true" class="w-e-text" v-html="column.introduction"></div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+// import feather from 'feather-icons'
+export default {
+  name: 'course-introduce',
+  props: {
+    column: {
+      type: Object
+    }
+  },
+  data () {
+    return {}
+  },
+  computed: {},
+  components: {},
+  watch: {},
+  methods: {
+  },
+  created () {},
+  mounted () {
+    // feather.replace()
+  }
+}
+</script>
+
+<style lang="stylus" scoped>
+  @import "~common/stylus/main";
+  @import "~common/css/wangEditor.css";
+
+  .course-introduce
+    background #fff
+    .introduce-top
+      height 200px
+      margin 0 30px 0 30px
+      padding-top 28px
+      border-top 3px solid #f7f7f7
+      .title
+        font-size 30px
+        font-weight bold
+      .content
+        font-size 25px
+        margin-top 23px
+        line-height 30px
+        color #606060
+      .toUpdate
+        font-size 25px
+        margin-top 26px
+        color #9C9C9C
+    .introduce-title
+      height 190px
+      border-top 3px solid #f7f7f7
+      background url('./{CA6648CD-5413-1C19-90CE-48AD0547024B}.png') no-repeat
+      background-size 100%
+      background-position center
+    .characteristic
+      padding-top 24px
+      min-height 266px
+</style>

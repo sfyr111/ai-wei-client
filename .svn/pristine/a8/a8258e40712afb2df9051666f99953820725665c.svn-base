@@ -1,0 +1,83 @@
+<template>
+  <div id="app-classify">
+    <div class="classify-lists">
+      <!-- <div>
+        <img :src="classify.backgroundUrl" class="top-icon">
+      </div> -->
+      <div class="content">
+        <column-cell v-for="(item, index) in columns" :key="item._id" :item="item" :ifClassify="false"></column-cell>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+  import ColumnCell from 'components/column-cell/column-cell'
+  import { getColumnsByClassifyId, getClassifyById } from './api'
+  import { ERR_OK } from 'common/api/config'
+  export default {
+    name: 'classify',
+    mixins: [],
+    props: {},
+    data () {
+      return {
+        columns: '',
+        classify: ''
+      }
+    },
+    computed: {},
+    components: {
+      ColumnCell
+    },
+    methods: {
+      async _getColumnsByClassifyId (classifyId) {
+        const params = {}
+        return getColumnsByClassifyId(params, classifyId).then(data => {
+          if (data.code === ERR_OK) {
+            this.columns = data.column
+            return data
+          }
+        })
+      },
+      async _getClassifyById (classifyId) {
+        const params = {}
+        return getClassifyById(params, classifyId).then(data => {
+          if (data.code === ERR_OK) {
+            this.classify = data.classify[0]
+            document.title = this.classify.name
+            if (/ip(hone|od|ad)/i.test(navigator.userAgent)) {
+              var i = document.createElement('iframe')
+              i.style.display = 'none'
+              i.onload = function () {
+                setTimeout(function () {
+                  i.remove()
+                }, 3)
+              }
+              document.body.appendChild(i)
+            }
+            console.log(document.title)
+            return data
+          }
+        })
+      }
+    },
+    created () {
+      this._getColumnsByClassifyId(this.$route.query.classifyId)
+    },
+    mounted () {
+      this._getClassifyById(this.$route.query.classifyId)
+    }
+  }
+</script>
+
+<style lang="stylus">
+  @import "~common/stylus/main";
+
+  .classify-lists
+    .top-icon
+      display inline-block
+      width 750px
+      height 388px
+    .content
+      padding-top 15px
+</style>

@@ -1,0 +1,64 @@
+<template>
+  <div class="hot-courses">
+    <div class="courses-title">
+      <div class="list-title">热门课程</div>
+      <div class="list-whole">查看全部 ></div>
+    </div>
+    <div>
+      <column-cell></column-cell>
+    </div>
+  </div>
+</template>
+
+<script>
+import Scroll from 'components/scroll/scroll'
+import Loading from 'components/loading/loading'
+import columnCell from 'components/column-cell/column-cell'
+
+export default {
+  name: 'hot-courses',
+  props: {},
+  data () {
+    return {
+      list: [{}]
+    }
+  },
+  computed: {},
+  components: {
+    Scroll,
+    Loading,
+    columnCell
+  },
+  watch: {},
+  methods: {},
+  created () {},
+  mounted () {}
+}
+</script>
+
+<style lang="stylus" scoped type="text/stylus">
+  @import "~common/stylus/main";
+
+  .hot-courses
+    background-color #fff
+    .courses-title
+      margin 0 20px 0 20px
+      background-color #fff
+      height 86px
+      display flex
+      align-items center
+      justify-content space-between
+      border-bottom 3px solid #f7f7f7
+      .list-title
+        font-size 28px
+        font-weight bold
+      .list-whole
+        font-size 22px
+        color #bababa
+    .courses-list
+      margin-bottom 99px
+      // height 8.24rem
+      // overflow hidden
+      // background-color $color-background-d
+</style>
+

@@ -1,0 +1,16 @@
+import api from 'common/api/service'
+
+export const test = async function (data = {}) {
+  const url = '/test/222'
+  const params = { ...data }
+  console.log(params)
+  const response = await api.post(url, params)
+  return response
+}
+
+export const getColumnsByClassifyId = async function (data = {}, classifyId) {
+  const url = `/column/classify/${classifyId}`
+  const params = { ...data }
+
+  return await api.get(url, params)
+}

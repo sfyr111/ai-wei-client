@@ -1,0 +1,111 @@
+<template>
+  <div id="app">
+    <router-view></router-view>
+    <div class="app-content">
+      <carousel></carousel>
+      <classify-tabs></classify-tabs>
+      <hot-courses></hot-courses>
+    </div>
+    <tab selectedPage="home"></tab>
+  </div>
+</template>
+
+<script>
+  import Tab from 'components/tab/tab'
+  import Carousel from 'pages/index/components/carousel/carousel'
+  import ClassifyTabs from 'pages/index/components/classify-tabs/classify-tabs'
+  import HotCourses from 'pages/index/components/hot-courses/hot-courses'
+
+  import { getParameterByName } from 'common/js/util'
+  import { wechatLogin, getPopularColumns, getClassify } from './api'
+  import { ERR_OK } from 'common/api/config'
+  import { mapGetters, mapActions } from 'vuex'
+
+  export default {
+    name: 'app',
+    mixins: [],
+    props: {
+    },
+    data () {
+      return {
+        classify: '',
+        popularColumns: ''
+      }
+    },
+    computed: {
+      ...mapGetters({
+        userInfo: 'userInfo',
+        token: 'token'
+      })
+    },
+    components: {
+      Tab,
+      Carousel,
+      ClassifyTabs,
+      HotCourses
+    },
+    methods: {
+      ...mapActions({
+        saveWecharLogin: 'saveWecharLogin'
+      }),
+      async _wechatLogin (code) {
+        const params = { code }
+        return await wechatLogin(params).then(data => {
+          if (data.code === ERR_OK) {
+            this.saveWecharLogin(data)
+            return data
+          }
+        })
+      },
+      async _getPopularColumns () {
+        const params = {}
+        return await getPopularColumns(params).then(data => {
+          if (data.code === ERR_OK) {
+            this.popularColumns = data.column
+            return data
+          }
+        })
+      },
+      async _getClassify () {
+        const params = {}
+        return await getClassify(params).then(data => {
+          if (data.code === ERR_OK) {
+            this.classify = data.classify
+            return data
+          }
+        })
+      },
+      async _concurrent () {
+        const data = await Promise.all([this._getPopularColumns(), this._getClassify()])
+        return data
+      }
+    },
+    created () {
+      let code = ''
+      if (process.env.NODE_ENV !== 'production') {
+        code = 'test'
+      } else {
+        code = getParameterByName('code', window.location.href)
+      }
+      this._wechatLogin(code)
+      this._concurrent()
+    },
+    mounted () {}
+  }
+</script>
+
+<style lang="stylus">
+  @import "~common/stylus/main";
+
+  .app
+    display: flex
+    flex-direction: column
+    justify-content: flex-end
+    height: 100vh
+  body
+    background-color #fbf9fe
+    width 750px
+  .app-content
+    height 1232px
+    overflow-y auto
+</style>

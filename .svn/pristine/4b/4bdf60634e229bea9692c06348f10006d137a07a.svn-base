@@ -1,0 +1,135 @@
+<template>
+  <div id="favorite-app">
+    <div class="favorite-content">
+      <swipeout >
+        <swipeout-item :threshold=".3" underlay-color="#ccc" v-for="(item , index) in list" :key="index">
+            <div slot="content">
+              <column-cell :item="item"></column-cell>
+            </div>
+            <div slot="right-menu">
+              <swipeout-button @click.native="deleteCell(index)" background-color="#D23934">删除</swipeout-button>
+            </div>
+        </swipeout-item>
+      </swipeout>
+    </div>
+    <tab selectedPage="favorite"></tab>
+  </div>
+</template>
+
+<script>
+  import { Swipeout, SwipeoutItem, SwipeoutButton } from 'vux'
+  import Tab from 'components/tab/tab'
+  import ColumnCell from 'components/column-cell/column-cell'
+  export default {
+    name: 'favorite',
+    props: {},
+    data () {
+      return {
+        list: [
+          {
+            _id: '59e7163129a1430b980ca41f',
+            backgroundUrl: 'http://专栏详情背景图片',
+            classifyId: '59e7163129a1430b980ca41f',
+            classifyName: '课程专栏',
+            createTime: 1508316721019,
+            creator: 'objectid',
+            imgUrl: 'http://placeholder.qiniudn.com/800x300/FFEF7D/ffffff',
+            introduction: '简介简介简介简介简介',
+            lastCourse: '最新课程的name',
+            name: '1课程专栏',
+            popular: true,
+            subtitle: '子标题',
+            updateTime: 1508484702552
+          },
+          {
+            _id: '59e7163129a1430b980ca41f',
+            backgroundUrl: 'http://专栏详情背景图片',
+            classifyId: '59e7163129a1430b980ca41f',
+            classifyName: '课程专栏',
+            createTime: 1508316721019,
+            creator: 'objectid',
+            imgUrl: 'http://placeholder.qiniudn.com/800x300/FFEF7D/ffffff',
+            introduction: '简介简介简介简介简介',
+            lastCourse: '最新课程的name',
+            name: '2课程专栏',
+            popular: true,
+            subtitle: '子标题',
+            updateTime: 1508484702552
+          },
+          {
+            _id: '59e7163129a1430b980ca41f',
+            backgroundUrl: 'http://专栏详情背景图片',
+            classifyId: '59e7163129a1430b980ca41f',
+            classifyName: '课程专栏',
+            createTime: 1508316721019,
+            creator: 'objectid',
+            imgUrl: 'http://placeholder.qiniudn.com/800x300/FFEF7D/ffffff',
+            introduction: '简介简介简介简介简介',
+            lastCourse: '最新课程的name',
+            name: '3课程专栏',
+            popular: true,
+            subtitle: '子标题',
+            updateTime: 1508484702552
+          },
+          {
+            _id: '59e7163129a1430b980ca41f',
+            backgroundUrl: 'http://专栏详情背景图片',
+            classifyId: '59e7163129a1430b980ca41f',
+            classifyName: '课程专栏',
+            createTime: 1508316721019,
+            creator: 'objectid',
+            imgUrl: 'http://placeholder.qiniudn.com/800x300/FFEF7D/ffffff',
+            introduction: '简介简介简介简介简介',
+            lastCourse: '最新课程的name',
+            name: '4课程专栏',
+            popular: true,
+            subtitle: '子标题',
+            updateTime: 1508484702552
+          },
+          {
+            _id: '59e7163129a1430b980ca41f',
+            backgroundUrl: 'http://专栏详情背景图片',
+            classifyId: '59e7163129a1430b980ca41f',
+            classifyName: '课程专栏',
+            createTime: 1508316721019,
+            creator: 'objectid',
+            imgUrl: 'http://placeholder.qiniudn.com/800x300/FFEF7D/ffffff',
+            introduction: '简介简介简介简介简介',
+            lastCourse: '最新课程的name',
+            name: '5课程专栏',
+            popular: true,
+            subtitle: '子标题',
+            updateTime: 1508484702552
+          }]
+      }
+    },
+    computed: {},
+    components: {
+      Tab,
+      ColumnCell,
+      Swipeout,
+      SwipeoutItem,
+      SwipeoutButton
+    },
+    watch: {},
+    methods: {
+      deleteCell (index) {
+        this.list.splice(index, 1)
+      }
+    },
+    created () {},
+    mounted () {}
+  }
+</script>
+
+<style lang="stylus">
+  @import "~common/stylus/main";
+
+  body
+    background-color #fbf9fe
+  .favorite-content
+    height 1090px
+    padding-top: 10px
+    background #f7f7f7
+    overflow-y auto 
+</style>
